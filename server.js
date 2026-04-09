@@ -1,9 +1,10 @@
 const express = require("express");
 const fs = require("fs");
+const path = require("path");
 
 const app = express();
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 const FILE = "products.json";
 
@@ -29,9 +30,14 @@ app.delete("/products/:id", (req, res) => {
     res.json({ success: true });
 });
 
+// открыть сайт товаров
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index", "index.html"));
+});
+
 // открыть админ панельку
 app.get("/admin", (req, res) => {
-    res.sendFile(__dirname + "/public/admin.html");
+    res.sendFile(path.join(__dirname, "public", "admin", "admin.html"));
 });
 
 app.listen(3000, () => console.log("Server started"));
